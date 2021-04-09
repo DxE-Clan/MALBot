@@ -1,6 +1,7 @@
 import discord
 import requests
 from embed import *
+from scores import *
 
 headers = {
     'x-rapidapi-key': "2ed26cb89emsh2b7cb079ec42fd9p15290cjsne485ef05078a",
@@ -14,7 +15,7 @@ async def show_schedule(ctx, day):
     print(response.text)
 
 
-async def search_anime(bot, ctx, query):
+async def search_anime(bot, ctx, query, next_step):
     url = "https://jikan1.p.rapidapi.com/search/anime"
     querystring = {"q": query, "format": "json"}
     response = requests.request("GET", url, headers=headers, params=querystring).json()
@@ -33,7 +34,12 @@ async def search_anime(bot, ctx, query):
         msg = await bot.wait_for("message", check = valid_response , timeout = 15)
 
         if msg:
-            await anime_detail(ctx, response_list[int(msg.content)-1])
+            selected_anime = response_list[int(msg.content)-1]
+            if(next_step=="detail"):
+                await anime_detail(ctx, selected_anime)
+            elif(next_step=="score"):
+                print(selected_anime['mal_id'])
+                await anime_score(ctx, selected_anime['mal_id'])
 
     except asyncio.TimeoutError:
         await ctx.send("Cancelling due to timeout")
@@ -55,3 +61,15 @@ async def anime_detail(ctx, anime):
         aired_string = f"{start_date_string} to {end_date_string}"
     
     await create_anime_embed(title = anime['title'], url = anime['url'], synopsis = anime['synopsis'], image_url=anime['image_url'], score = anime['score'], episodes =  anime['episodes'], aired = aired_string, members = anime['members'], rated =  anime['rated'], ctx = ctx)
+
+async def anime_score(ctx, anime_id):
+    url = f"https://jikan1.p.rapidapi.com/anime/{anime_id}/stats"
+    response = requests.request("GET", url, headers = headers).json()
+
+    percentage_list = []
+    votes_list = []
+    for i in range(10):
+        percentage_list.append(response['scores'][f"{i+1}"]['percentage'])
+        votes_list.append(response['scores'][f"{i+1}"]['votes'])
+
+    await create_score_bargraph(ctx, percentage_list, votes_list)

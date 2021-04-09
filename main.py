@@ -8,10 +8,11 @@ from discord.ext import commands
 from mal import *
 from anime import *
 from embed import *
+from discord_token import *
 
 bot = commands.Bot(command_prefix="m.")
 
-TOKEN = "DUMMY TOKEN"
+TOKEN = get_discord_token()
 
 @bot.event
 async def on_ready():
@@ -34,13 +35,16 @@ async def on_command_error(ctx, error):
 
 @bot.command(name="searchanime", help="Seaches through the MAL Database to find an anime. Requires a Title to search")
 async def search(ctx, *, query):
-  await search_anime(bot, ctx, query)
+  await search_anime(bot, ctx, query, "detail")
 
 @bot.command(name="schedule", help="prints the titles of anime that are airing on a given day at JST time")
 async def schedule(ctx, day):
   day.lower
   await show_schedule(ctx, day)
 
+@bot.command(name="score", help="sends a graph of the scores of an anime")
+async def scores(ctx, *, query):
+  await search_anime(bot, ctx, query, "score")
 
 
 bot.run(TOKEN)
