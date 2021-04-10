@@ -11,8 +11,17 @@ headers = {
 
 async def show_schedule(ctx, day):
     url = f"https://jikan1.p.rapidapi.com/schedule/{day}"
-    response = requests.request("GET", url, headers=headers)
-    print(response.text)
+    response = requests.request("GET", url, headers=headers).json()
+    
+    response_list = response[str(day)]
+
+    anime_list = []
+
+    for i in range(min(len(response_list), 10)):
+        anime_list.append(response_list[i])
+    
+    await create_schedule_list_embed(anime_list, day, ctx)
+
 
 
 async def search_anime(bot, ctx, query, next_step):
@@ -25,7 +34,7 @@ async def search_anime(bot, ctx, query, next_step):
     for i in range(response_length):
         response_list.append(response["results"][i])
     
-    await create_list_embed(response_list, ctx)
+    await create_anime_list_embed(response_list, ctx)
 
     try:
         def valid_response(m):

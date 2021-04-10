@@ -26,8 +26,6 @@ async def on_command_error(ctx, error):
     await ctx.send("Command not found")
   elif isinstance(error, commands.CommandOnCooldown):
     await ctx.send("Please wait for cooldown to end")
-  else:
-    pass
 
 # async def on_message(message):
 #     await bot.process_commands(message)
