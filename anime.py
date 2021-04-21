@@ -2,6 +2,7 @@ import discord
 import requests
 from embed import *
 from scores import *
+from admin import *
 
 headers = {
     'x-rapidapi-key': "2ed26cb89emsh2b7cb079ec42fd9p15290cjsne485ef05078a",
@@ -21,7 +22,6 @@ async def show_schedule(ctx, day):
         anime_list.append(response_list[i])
     
     await create_schedule_list_embed(anime_list, day, ctx)
-
 
 
 async def search_anime(bot, ctx, query, next_step):
@@ -44,6 +44,9 @@ async def search_anime(bot, ctx, query, next_step):
 
         if msg:
             selected_anime = response_list[int(msg.content)-1]
+
+            await delete_messages(ctx, 2)
+
             if(next_step=="detail"):
                 await anime_detail(ctx, selected_anime)
             elif(next_step=="score"):
