@@ -5,7 +5,6 @@ import discord
 import asyncio
 import time
 from discord.ext import commands
-from mal import *
 from anime import *
 from embed import *
 from discord_token import *
