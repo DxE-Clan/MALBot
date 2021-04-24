@@ -72,7 +72,17 @@ async def anime_detail(ctx, anime):
         end_date_string = f"{end_date[5:7]}/{end_date[0:4]}"
         aired_string = f"{start_date_string} to {end_date_string}"
     
-    await create_anime_embed(title = anime['title'], url = anime['url'], synopsis = anime['synopsis'], image_url=anime['image_url'], score = anime['score'], episodes =  anime['episodes'], aired = aired_string, members = anime['members'], rated =  anime['rated'], ctx = ctx)
+    await create_anime_embed(
+        title = anime['title'], 
+        url = anime['url'], 
+        synopsis = anime['synopsis'], 
+        image_url=anime['image_url'], 
+        score = anime['score'], 
+        episodes =  anime['episodes'], 
+        aired = aired_string, 
+        members = anime['members'], 
+        rated =  anime['rated'], ctx = ctx
+    )
 
 async def anime_score(ctx, anime_id):
     url = f"https://jikan1.p.rapidapi.com/anime/{anime_id}/stats"

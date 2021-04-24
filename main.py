@@ -5,9 +5,11 @@ import discord
 import asyncio
 import time
 from discord.ext import commands
+
 from anime import *
 from embed import *
 from discord_token import *
+from user import *
 
 bot = commands.Bot(command_prefix="m.")
 
@@ -42,6 +44,10 @@ async def schedule(ctx, day):
 @bot.command(name="score", help="sends a graph of the scores of an anime")
 async def scores(ctx, *, query):
   await search_anime(bot, ctx, query, "score")
+
+@bot.command(name="topuser", help="List of Top Anime for User")
+async def topuser(ctx, username):
+  await get_completed_user_list(ctx, username, "top")
 
 
 bot.run(TOKEN)

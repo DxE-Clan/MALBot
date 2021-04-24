@@ -34,3 +34,14 @@ async def create_schedule_list_embed(anime_list, day, ctx):
         embed.add_field(name = "\u200b" , value = "\u200b", inline = False)
     
     await ctx.send(embed = embed)
+
+async def create_user_top_embed(anime_title_list, anime_score_list, url, ctx):
+    embed = discord.Embed(title = "Top Anime of User", url = url, color=0xff0000)
+
+    for i in range(len(anime_title_list)):
+        anime_title = anime_title_list[i]
+        score = anime_score_list[i]
+
+        embed.add_field(name = f"{i+1}) {anime_title}", value= f"Score: {score}", inline=False)
+
+    await ctx.send(embed = embed)
