@@ -41,13 +41,12 @@ async def schedule(ctx, day):
   day.lower
   await show_schedule(ctx, day)
 
-@bot.command(name="score", help="sends a graph of the scores of an anime")
-async def scores(ctx, *, query):
-  await search_anime(bot, ctx, query, "score")
+@bot.command(name="stats", help="sends a graph of the scores and watch types of an anime")
+async def stats(ctx, *, query):
+  await search_anime(bot, ctx, query, "stats")
 
 @bot.command(name="topuser", help="List of Top Anime for User")
 async def topuser(ctx, username):
   await get_completed_user_list(ctx, username, "top")
-
 
 bot.run(TOKEN)

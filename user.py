@@ -16,9 +16,8 @@ async def get_completed_user_list(ctx, username, next_step):
 
     response_list = response["anime"]
 
-    if(next_step == "top"):
+    if (next_step == "top"):
         await get_user_top(ctx, response_list, username)
-    
     
 async def get_user_top(ctx, response_list, username):
     anime_title_list = []
@@ -31,6 +30,3 @@ async def get_user_top(ctx, response_list, username):
         anime_score_list.append(response_list[i]["score"])
 
     await create_user_top_embed(anime_title_list, anime_score_list, url, ctx)
-    
-
-
