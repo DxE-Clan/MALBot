@@ -45,3 +45,12 @@ async def create_user_top_embed(anime_title_list, anime_score_list, url, ctx):
         embed.add_field(name = f"{i+1}) {anime_title}", value = f"Score: {score}", inline = False)
 
     await ctx.send(embed = embed)
+
+async def create_user_anime_detail(url, title, image_url, username, watch_status, watched_episodes, total_episodes, score_given, ctx):
+    embed = discord.Embed(title=title, url=url, description = f"Anime in {username}'s list", color=0xff0000)
+    embed.set_thumbnail(url=image_url)
+    embed.add_field(name = "Watch Status", value = watch_status, inline = True)
+    embed.add_field(name = "Score", value = score_given, inline = True)
+    embed.add_field(name = "Episodes", value = f"{watched_episodes}/{total_episodes}", inline= False)
+
+    await ctx.send(embed=embed)

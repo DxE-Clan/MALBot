@@ -1,9 +1,11 @@
 import discord
 import requests
 import decimal
+
 from embed import *
 from stats import *
 from admin import *
+from user import *
 
 headers = {
     'x-rapidapi-key': "2ed26cb89emsh2b7cb079ec42fd9p15290cjsne485ef05078a",
@@ -25,7 +27,7 @@ async def show_schedule(ctx, day):
     await create_schedule_list_embed(anime_list, day, ctx)
 
 
-async def search_anime(bot, ctx, query, next_step):
+async def search_anime(bot, ctx, query, next_step, username=""):
     url = "https://jikan1.p.rapidapi.com/search/anime"
     querystring = {"q": query, "format": "json"}
     response = requests.request("GET", url, headers=headers, params=querystring).json()
@@ -51,8 +53,9 @@ async def search_anime(bot, ctx, query, next_step):
             if (next_step == "detail"):
                 await anime_detail(ctx, selected_anime)
             elif (next_step == "stats"):
-                #print(selected_anime['mal_id'])
                 await anime_stats(ctx, selected_anime['mal_id'], selected_anime['title'])
+            elif (next_step == "usercheck"):
+                await check_user_anime(ctx, username, selected_anime['title'])
 
     except asyncio.TimeoutError:
         await ctx.send("Cancelling due to timeout")

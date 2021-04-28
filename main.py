@@ -45,6 +45,13 @@ async def schedule(ctx, day):
 async def stats(ctx, *, query):
   await search_anime(bot, ctx, query, "stats")
 
+@bot.command(name="usercheck", help="Profile of User")
+async def userprofile(ctx, *, query):
+  tempQ = query
+  username = tempQ.split()[0]
+  query = query.split(None, 1)[1]
+  await search_anime(bot, ctx, query, "usercheck", username)
+
 @bot.command(name="topuser", help="List of Top Anime for User")
 async def topuser(ctx, username):
   await get_completed_user_list(ctx, username, "top")
