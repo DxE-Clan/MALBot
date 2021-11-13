@@ -4,16 +4,18 @@ import random
 import discord
 import asyncio
 import time
+from dotenv.main import load_dotenv
 from discord.ext import commands
 
 from anime import *
 from embed import *
-from discord_token import *
 from user import *
 
 bot = commands.Bot(command_prefix="m.")
 
-TOKEN = get_discord_token()
+load_dotenv()
+
+TOKEN = os.getenv("DISCORD_TOKEN")
 
 @bot.event
 async def on_ready():
